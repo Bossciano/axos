@@ -1,0 +1,12 @@
+<?php
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+class ProfileController extends Controller {
+ public function seeker(Request $r){$profile=$r->user()->jobSeekerProfile()->firstOrCreate(['user_id'=>$r->user()->id]);return view('job-seeker.profile',compact('profile'));}
+ public function seekerUpdate(Request $r){$p=$r->user()->jobSeekerProfile()->firstOrCreate(['user_id'=>$r->user()->id]);$d=$r->validate(['headline'=>'nullable|string|max:150','bio'=>'nullable|string|max:5000','phone'=>'nullable|string|max:40','location'=>'nullable|string|max:150','skills'=>'nullable|string|max:2000','experience'=>'nullable|string|max:5000','education'=>'nullable|string|max:5000']);$p->update($d);return back()->with('success','Profile updated.');}
+ public function resume(Request $r){$p=$r->user()->jobSeekerProfile()->firstOrCreate(['user_id'=>$r->user()->id]);$r->validate(['resume'=>'required|file|mimes:pdf,doc,docx|max:5120']);if($p->resume_path)Storage::disk('private')->delete($p->resume_path);$p->update(['resume_path'=>$r->file('resume')->store('resumes','private')]);return back()->with('success','Resume uploaded.');}
+ public function employer(Request $r){$profile=$r->user()->employerProfile()->firstOrCreate(['user_id'=>$r->user()->id,'company_name'=>$r->user()->name]);return view('employer.profile',compact('profile'));}
+ public function employerUpdate(Request $r){$p=$r->user()->employerProfile()->firstOrCreate(['user_id'=>$r->user()->id,'company_name'=>$r->user()->name]);$d=$r->validate(['company_name'=>'required|string|max:150','industry'=>'nullable|string|max:100','location'=>'nullable|string|max:150','description'=>'nullable|string|max:5000','website'=>'nullable|url|max:255','company_size'=>'nullable|string|max:50']);$p->update($d);return back()->with('success','Company profile updated.');}
+ public function logo(Request $r){$p=$r->user()->employerProfile()->firstOrCreate(['user_id'=>$r->user()->id,'company_name'=>$r->user()->name]);$r->validate(['logo'=>'required|image|mimes:jpg,jpeg,png,webp|max:2048']);if($p->logo_path)Storage::disk('public')->delete($p->logo_path);$p->update(['logo_path'=>$r->file('logo')->store('logos','public')]);return back()->with('success','Logo uploaded.');}
+}

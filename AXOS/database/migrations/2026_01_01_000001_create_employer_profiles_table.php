@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration; use Illuminate\Database\Schema\Blueprint; use Illuminate\Support\Facades\Schema;
+return new class extends Migration { public function up(){Schema::create('employer_profiles',function(Blueprint $t){$t->id();$t->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();$t->string('company_name');$t->string('industry')->nullable();$t->string('location')->nullable();$t->text('description')->nullable();$t->string('website')->nullable();$t->string('company_size')->nullable();$t->string('logo_path')->nullable();$t->timestamps();});} public function down(){Schema::dropIfExists('employer_profiles');}};

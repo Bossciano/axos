@@ -1,0 +1,1 @@
+@extends('layouts.app') @section('title','Admin — AXOS') @section('content')<div class="container"><h1>Admin Dashboard</h1><div class="grid">@foreach($stats as $k=>$v)<div class="card"><span class="muted">{{ucfirst(str_replace('_',' ',$k))}}</span><h2>{{$v}}</h2></div>@endforeach</div></div>@endsection

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /employer/
+Disallow: /job-seeker/
+Disallow: /applications/
+Disallow: /notifications/
+Sitemap: /sitemap.xml

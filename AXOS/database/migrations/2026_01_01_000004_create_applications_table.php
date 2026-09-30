@@ -1,0 +1,3 @@
+<?php
+use Illuminate\Database\Migrations\Migration; use Illuminate\Database\Schema\Blueprint; use Illuminate\Support\Facades\Schema;
+return new class extends Migration { public function up(){Schema::create('applications',function(Blueprint $t){$t->id();$t->foreignId('job_id')->constrained()->cascadeOnDelete();$t->foreignId('user_id')->constrained()->cascadeOnDelete();$t->enum('status',['pending','viewed','shortlisted','rejected','hired'])->default('pending');$t->text('cover_letter')->nullable();$t->timestamp('viewed_at')->nullable();$t->timestamps();$t->unique(['job_id','user_id']);$t->index(['job_id','status']);});} public function down(){Schema::dropIfExists('applications');}};
